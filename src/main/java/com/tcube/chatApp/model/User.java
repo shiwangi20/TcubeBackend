@@ -1,17 +1,32 @@
 package com.tcube.chatApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import jakarta.persistence.*;
 
-import java.sql.Timestamp;
+@Table(name = "users")
+@Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class User extends ProfileInfo {
 
-public class User {
-
+    @Id
+    @GeneratedValue
+    @Column(name = "userId")
+    @JsonIgnore
     private String userId;
-    private String username;
-    private String status;
+
+    @Column(name = "phone")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String phone;
+
+    @Column(name = "emailId")
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String emailId;
-    private long createdAt;
-    private String profileImage;
+
+    @Column(name = "password")
+    @JsonIgnore
+    private String password;
 
     public String getUserId() {
         return userId;
@@ -19,22 +34,6 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getPhone() {
@@ -53,19 +52,11 @@ public class User {
         this.emailId = emailId;
     }
 
-    public long getCreatedAt() {
-        return createdAt;
+    public String getPassword() {
+        return password;
     }
 
-    public void setCreatedAt(long createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

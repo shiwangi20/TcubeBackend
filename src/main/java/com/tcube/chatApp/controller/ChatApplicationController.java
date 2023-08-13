@@ -1,7 +1,7 @@
 package com.tcube.chatApp.controller;
 
 import com.tcube.chatApp.model.Connection;
-import com.tcube.chatApp.model.User;
+import com.tcube.chatApp.model.ProfileInfo;
 import com.tcube.chatApp.services.ConnectionService;
 import com.tcube.chatApp.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class ChatApplicationController {
 
     @GetMapping("/profile")
     @CrossOrigin
-    public User getProfile() {
+    public ProfileInfo getProfile() {
         System.out.println("Get Profile for user id: " + userId);
         return userServices.getUserById(userId);
     }
