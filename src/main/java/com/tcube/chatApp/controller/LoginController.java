@@ -1,12 +1,13 @@
 package com.tcube.chatApp.controller;
 
+import com.tcube.chatApp.model.LoginRequest;
 import com.tcube.chatApp.services.UserServices;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,17 +17,20 @@ public class LoginController {
     @Autowired
     private UserServices userServices;
 
-    @PostMapping("/signup")
-    public ResponseEntity signUp(@RequestParam("username") String name, @RequestParam("password") String password, @RequestParam("emailId") String emailId) {
-        System.out.printf("Sign Up username:" + name + " email:" + emailId + " emailId:" + emailId);
-        userServices.createUser(name, password, emailId);
-        return new ResponseEntity("User Added", HttpStatus.OK);
+    @PostMapping(path = "/signup",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity signUp(@RequestBody LoginRequest signUpRequest) {
+        System.out.println("Sign Up email:" + signUpRequest.getEmailId());
+        return userServices.createUser(signUpRequest.getEmailId(), signUpRequest.getPassword());
     }
 
-    @PostMapping("/login")
-    public void login(@RequestParam("username") String name, @RequestParam("password") String password) {
-        System.out.printf("Login");
-        userServices.validateUser(name, password);
+    @PostMapping(path = "/login",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
+        System.out.println("Login");
+        return userServices.validateUser(loginRequest.getEmailId(), loginRequest.getPassword());
     }
 
 }

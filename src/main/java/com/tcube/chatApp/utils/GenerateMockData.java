@@ -53,7 +53,7 @@ public class GenerateMockData {
 
     public static User createUser() {
         User user = new User();
-        user.setName("Tcube Test User " + USER_COUNT);
+        user.setUsername("Tcube Test User " + USER_COUNT);
         user.setPassword("pass123");
         user.setPhone("+918427816864");
         user.setEmailId("tcubeTestUser" + USER_COUNT + "@tcube.com");

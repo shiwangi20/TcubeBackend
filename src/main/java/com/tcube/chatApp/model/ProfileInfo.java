@@ -3,24 +3,30 @@ package com.tcube.chatApp.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import jakarta.persistence.Column;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ProfileInfo {
     @JsonInclude(Include.NON_NULL)
-    private String name;
+    private String username;
+
     @JsonInclude(Include.NON_NULL)
     private String status;
+
+    @Column(name = "profile_image")
     @JsonInclude(Include.NON_NULL)
     private String profileImage;
+
+    @Column(name = "created_at")
     @JsonInclude(Include.NON_NULL)
     private long createdAt;
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getStatus() {
@@ -50,7 +56,7 @@ public class ProfileInfo {
     @Override
     public String toString() {
         return "ProfileInfo{" +
-                "username='" + name + '\'' +
+                "username='" + username + '\'' +
                 ", status='" + status + '\'' +
                 ", profileImage='" + profileImage + '\'' +
                 ", createdAt=" + createdAt +

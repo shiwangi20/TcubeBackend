@@ -4,15 +4,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import org.hibernate.annotations.GenericGenerator;
 
-@Table(name = "users")
 @Entity
+@Table(name = "users")
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User extends ProfileInfo {
 
     @Id
-    @GeneratedValue
-    @Column(name = "userId")
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "user_id")
     @JsonIgnore
     private String userId;
 
@@ -20,7 +22,7 @@ public class User extends ProfileInfo {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String phone;
 
-    @Column(name = "emailId")
+    @Column(name = "email_id")
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String emailId;
 
@@ -58,5 +60,13 @@ public class User extends ProfileInfo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                ", phone='" + phone + '\'' +
+                ", emailId='" + emailId + '\'' +
+                '}';
     }
 }
