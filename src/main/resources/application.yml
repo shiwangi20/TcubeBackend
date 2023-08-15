@@ -1,13 +1,9 @@
-server:
-    port: 8080
-    servlet:
-        context-path: /resource-server
 
 spring:
     datasource:
         driver-class-name: com.mysql.cj.jdbc.Driver
-        password: ''
-        url: jdbc:mysql://localhost:3306/tcubeChat
+        password: Messi#10
+        url: jdbc:mysql://localhost:3306/tcube
         username: root
     jpa:
         hibernate:
@@ -16,3 +12,4 @@ spring:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL8Dialect
         show-sql: true
+
