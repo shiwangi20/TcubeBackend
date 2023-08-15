@@ -35,7 +35,6 @@ public class LoginController {
     public ResponseEntity signUp(@RequestBody LoginRequest signUpRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         System.out.println("Sign Up email:" + signUpRequest.getEmailId());
         String password = aesGenerator.pEncrypt(signUpRequest.getPassword());
-        System.out.println(aesGenerator.pDecrypt(password));
         return userServices.createUser(signUpRequest.getEmailId(), password);
     }
 
