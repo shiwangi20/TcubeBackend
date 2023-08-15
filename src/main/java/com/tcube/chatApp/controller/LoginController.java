@@ -15,7 +15,7 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/")
 public class LoginController {
@@ -28,22 +28,24 @@ public class LoginController {
     public LoginController() throws NoSuchAlgorithmException {
     }
 
-    @CrossOrigin
+
     @PostMapping(path = "/signup",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity signUp(@RequestBody LoginRequest signUpRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         System.out.println("Sign Up email:" + signUpRequest.getEmailId());
         String password = aesGenerator.pEncrypt(signUpRequest.getPassword());
+        System.out.println("pwd" + password);
         return userServices.createUser(signUpRequest.getEmailId(), password);
     }
 
     @PostMapping(path = "/login",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity login(@RequestBody LoginRequest loginRequest) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         System.out.println("Login");
-        return userServices.validateUser(loginRequest.getEmailId(), loginRequest.getPassword());
+        String password = aesGenerator.pEncrypt(loginRequest.getPassword());
+        return userServices.validateUser(loginRequest.getEmailId(), password);
     }
 
 }

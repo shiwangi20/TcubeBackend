@@ -2,11 +2,18 @@ package com.tcube.chatApp.services;
 
 import com.tcube.chatApp.model.User;
 import com.tcube.chatApp.repository.UserRepository;
+import com.tcube.chatApp.utils.AESGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 @Service
@@ -14,6 +21,11 @@ public class UserServices {
 
     @Autowired
     private UserRepository userRepository;
+
+    AESGenerator aesGenerator = new AESGenerator();
+
+    public UserServices() throws NoSuchAlgorithmException {
+    }
 
     public ResponseEntity createUser(String emailId, String password) {
         System.out.println("Find User by Email Id "+ emailId);
@@ -45,7 +57,7 @@ public class UserServices {
     }
 
 
-    public ResponseEntity validateUser(String emailId, String password) {
+    public ResponseEntity validateUser(String emailId, String password)  {
         User user = userRepository.findUserByEmailId(emailId);
         if (user.getPassword().equals(password)) {
             System.out.println("Valid User");

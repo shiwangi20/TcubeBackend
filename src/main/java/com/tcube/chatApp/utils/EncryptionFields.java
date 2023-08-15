@@ -1,16 +1,20 @@
 package com.tcube.chatApp.utils;
 
 import javax.crypto.*;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Base64;
 
 public class EncryptionFields {
 
-    public static String encrypt(String algorithm, String input, SecretKey key, IvParameterSpec iv)
+    public static final int AES_KEY_SIZE = 128;
+    public static final int GCM_NONCE_LENGTH = 12;
+    public static final int GCM_TAG_LENGTH = 16;
+
+    public static String encrypt(String algorithm, String input, SecretKey key, GCMParameterSpec iv)
             throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
             InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance(algorithm);
@@ -20,13 +24,12 @@ public class EncryptionFields {
                 .encodeToString(cipherText);
     }
 
-    public static String decrypt(String algorithm, String cipherText, SecretKey key, IvParameterSpec iv)
+    public static String decrypt(String algorithm, String cipherText, SecretKey key, GCMParameterSpec iv)
             throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
             InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
         Cipher cipher = Cipher.getInstance(algorithm);
         cipher.init(Cipher.DECRYPT_MODE, key, iv);
-        byte[] plainText = cipher.doFinal(Base64.getDecoder()
-                .decode(cipherText));
+        byte[] plainText = cipher.doFinal(cipherText.getBytes());
         return new String(plainText);
     }
 
@@ -37,10 +40,11 @@ public class EncryptionFields {
         return key;
     }
 
-    public static IvParameterSpec generateIv() {
-        byte[] iv = new byte[16];
-        new SecureRandom().nextBytes(iv);
-        return new IvParameterSpec(iv);
+
+    public static GCMParameterSpec generateIv() {
+        final byte[] nonce = new byte[GCM_NONCE_LENGTH];
+        GCMParameterSpec spec = new GCMParameterSpec(GCM_TAG_LENGTH* 8, nonce);
+        return  spec;
     }
 
 

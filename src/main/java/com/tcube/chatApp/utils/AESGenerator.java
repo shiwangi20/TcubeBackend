@@ -4,6 +4,7 @@ import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.IvParameterSpec;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -14,13 +15,13 @@ public class AESGenerator{
     String pw;
     String algorithm;
     SecretKey encKey;
-    IvParameterSpec paramSpec;
+    GCMParameterSpec paramSpec;
 
 
     public AESGenerator() throws NoSuchAlgorithmException {
         encKey = EncryptionFields.generateKey(128);;
         paramSpec = EncryptionFields.generateIv();
-        algorithm = "AES/CBC/PKCS5Padding";
+        algorithm = "AES/GCM/NoPadding";
     }
 
 
